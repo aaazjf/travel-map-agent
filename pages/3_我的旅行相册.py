@@ -76,7 +76,7 @@ def _group_spots_by_location_and_year(spots: list[dict[str, Any]]) -> list[dict[
   return grouped
 
 
-st.set_page_config(page_title="我的旅行相册", page_icon=":books:", layout="wide")
+st.set_page_config(page_title="我的旅行相册", page_icon="📸", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:
@@ -84,7 +84,7 @@ if "user_id" not in st.session_state:
 if "album_expand_all" not in st.session_state:
   st.session_state["album_expand_all"] = False
 
-st.title("我的旅行相册")
+st.title("📸 我的旅行相册")
 
 all_spots = list_spots(st.session_state["user_id"])
 all_years = sorted({_spot_year(item) for item in all_spots if _spot_year(item) != "未知年份"}, reverse=True)

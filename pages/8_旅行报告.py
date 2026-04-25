@@ -15,13 +15,13 @@ from src.services.report_service import (
 from src.services.spot_service import list_spots
 
 
-st.set_page_config(page_title="旅行报告", page_icon=":page_facing_up:", layout="wide")
+st.set_page_config(page_title="旅行报告", page_icon="📊", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:
   st.session_state["user_id"] = DEFAULT_USER_ID
 
-st.title("旅行报告一键生成")
+st.title("📊 旅行报告一键生成")
 st.caption("按年份/国家生成年度复盘，支持 Markdown 下载，PDF 为可选能力。")
 
 spots = list_spots(st.session_state["user_id"])

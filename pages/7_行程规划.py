@@ -10,13 +10,13 @@ from src.services.collaboration_service import list_users, share_trip_plan
 from src.services.itinerary_service import generate_trip_plan, list_trip_plans, save_trip_plan
 
 
-st.set_page_config(page_title="行程规划", page_icon=":compass:", layout="wide")
+st.set_page_config(page_title="行程规划", page_icon="✈️", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:
   st.session_state["user_id"] = DEFAULT_USER_ID
 
-st.title("行程规划")
+st.title("✈️ 行程规划")
 st.caption("填写目的地和偏好，AI 自动生成详细每日安排")
 
 with st.form("trip_plan_form", clear_on_submit=False):

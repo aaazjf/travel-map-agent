@@ -8,10 +8,10 @@ from src.memory import deactivate_memory, list_pending_conflicts, resolve_confli
 from src.services.agent_service import get_memory_notes
 
 
-TITLE = "旅行记忆"
+TITLE = "🧠 旅行记忆"
 SUB = "这里展示长期记忆，冲突记忆需要人工确认。"
 
-st.set_page_config(page_title=TITLE, page_icon=":memo:", layout="wide")
+st.set_page_config(page_title=TITLE, page_icon="🧠", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:

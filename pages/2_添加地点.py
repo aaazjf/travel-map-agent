@@ -48,7 +48,7 @@ def _parse_default_datetime(raw: str) -> datetime:
 
 # ─── 页面初始化 ───────────────────────────────────────────────────────────────
 
-st.set_page_config(page_title="添加地点", page_icon=":pushpin:", layout="wide")
+st.set_page_config(page_title="添加地点", page_icon="📍", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:
@@ -71,7 +71,7 @@ if "poi_results" not in st.session_state:
     st.session_state["poi_results"] = []
 
 form_state = st.session_state["add_form"]
-st.title("添加旅行地点")
+st.title("📍 添加旅行地点")
 
 # ─── 地点搜索 ─────────────────────────────────────────────────────────────────
 with st.container(border=True):

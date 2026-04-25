@@ -12,7 +12,7 @@ from src.services.spot_service import list_spots
 from src.ui import build_amap_replay_html
 
 
-PAGE_TITLE = "\u8f68\u8ff9\u56de\u653e"
+PAGE_TITLE = "\u25b6\ufe0f \u8f68\u8ff9\u56de\u653e"
 TXT_MIN_TWO = "\u81f3\u5c11\u9700\u8981 2 \u4e2a\u5730\u70b9\u624d\u53ef\u4ee5\u56de\u653e\u3002"
 TXT_ALL_YEARS = "\u5168\u90e8\u5e74\u4efd"
 TXT_SELECT_YEAR = "\u9009\u62e9\u56de\u653e\u5e74\u4efd"
@@ -48,7 +48,7 @@ def format_spot_time(spot: dict) -> str:
     return str(raw)
 
 
-st.set_page_config(page_title=PAGE_TITLE, page_icon=":clapper:", layout="wide")
+st.set_page_config(page_title=PAGE_TITLE, page_icon="▶️", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:

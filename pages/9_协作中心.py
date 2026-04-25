@@ -15,13 +15,13 @@ from src.services.collaboration_service import (
 from src.services.spot_service import list_spots
 
 
-st.set_page_config(page_title="协作中心", page_icon=":people_holding_hands:", layout="wide")
+st.set_page_config(page_title="协作中心", page_icon="👥", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:
   st.session_state["user_id"] = DEFAULT_USER_ID
 
-st.title("多用户协作中心")
+st.title("👥 多用户协作中心")
 st.caption("支持共享相册、邀请确认、评论与 @搭子（模拟多用户）。")
 
 users = list_users()

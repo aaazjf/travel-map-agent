@@ -8,13 +8,13 @@ from src.services.match_service import create_invite, get_invites, rank_buddies
 from src.services.spot_service import list_spots
 
 
-st.set_page_config(page_title="找搭子", page_icon=":handshake:", layout="wide")
+st.set_page_config(page_title="找搭子", page_icon="🤝", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:
   st.session_state["user_id"] = DEFAULT_USER_ID
 
-st.title("找搭子")
+st.title("🤝 找搭子")
 st.caption("按轨迹相似度排序")
 
 with st.expander("📊 匹配分数说明", expanded=False):

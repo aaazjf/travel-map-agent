@@ -28,7 +28,7 @@ from src.services.agent_service import (
 from src.services.spot_service import list_spots
 
 
-TXT_TITLE = "智能助手"
+TXT_TITLE = "🤖 智能助手"
 TXT_WARNING = "未启用 LLM。请在 `.env` 中配置 LLM_PROVIDER 和对应 API Key。"
 TXT_NEW_CHAT = "新建对话"
 TXT_HISTORY = "历史会话"
@@ -89,7 +89,7 @@ def render_floating_token_tank(used_tokens: int, total_tokens: int) -> None:
   )
 
 
-st.set_page_config(page_title=TXT_TITLE, page_icon=":robot_face:", layout="wide")
+st.set_page_config(page_title=TXT_TITLE, page_icon="🤖", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:

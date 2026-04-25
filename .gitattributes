@@ -1,0 +1,9 @@
+﻿* text=auto eol=lf
+
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.md text working-tree-encoding=UTF-8
+*.py text working-tree-encoding=UTF-8
+*.toml text working-tree-encoding=UTF-8
+*.yml text working-tree-encoding=UTF-8
+*.yaml text working-tree-encoding=UTF-8

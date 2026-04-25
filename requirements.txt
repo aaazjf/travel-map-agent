@@ -1,0 +1,12 @@
+streamlit>=1.36.0
+pydeck>=0.9.1
+openai>=1.40.0
+python-dotenv>=1.0.1
+pandas>=2.2.0
+openpyxl>=3.1.0
+pypdf>=4.0.0
+python-docx>=1.1.0
+reportlab>=4.2.0
+
+# Optional: enables web_search tool (web_search tool gracefully degrades if absent)
+duckduckgo-search>=6.0.0

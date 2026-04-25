@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>旅行地图相册</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Travel Memory Atlas</p>
+        <h1>把旅行回忆钉在世界地图上</h1>
+        <p class="subtitle">支持地图点选和地名搜索，按国家/城市/区县保存照片与故事。</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <span id="stats-locations">0</span>
+          <small>地点</small>
+        </div>
+        <div class="stat-box">
+          <span id="stats-photos">0</span>
+          <small>照片</small>
+        </div>
+        <div class="stat-box">
+          <span id="stats-countries">0</span>
+          <small>国家</small>
+        </div>
+        <div class="stat-box">
+          <span id="stats-distance">0</span>
+          <small>公里</small>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <section class="map-panel">
+        <div class="map-head">
+          <h2>全球地图</h2>
+          <div class="map-btn-group">
+            <button id="fit-all-btn" type="button">查看全部足迹</button>
+            <button id="heatmap-btn" type="button" class="ghost">热力图</button>
+            <button id="journey-btn" type="button" class="ghost">▶ 轨迹回放</button>
+            <button id="random-btn" type="button" class="ghost">随机记忆</button>
+          </div>
+        </div>
+        <div class="map-tools">
+          <input id="place-search-input" type="search" placeholder="搜索地名，例如：北京朝阳区、Paris、Tokyo" />
+          <button id="place-search-btn" type="button">搜索并定位</button>
+          <select id="basemap-select" aria-label="选择底图">
+            <option value="normal" selected>标准地图</option>
+            <option value="satellite">卫星+路网</option>
+          </select>
+        </div>
+        <p id="search-tip" class="search-tip"></p>
+
+        <!-- 轨迹回放控制面板 -->
+        <div id="journey-panel" class="journey-panel hidden">
+          <div class="journey-info">
+            <span id="journey-label">准备回放...</span>
+            <span id="journey-progress"></span>
+          </div>
+          <div class="journey-controls">
+            <button id="journey-pause-btn" type="button" class="ghost small">⏸ 暂停</button>
+            <button id="journey-stop-btn" type="button" class="ghost small">■ 停止</button>
+            <label class="speed-label">速度
+              <input id="journey-speed" type="range" min="0.5" max="4" step="0.5" value="1" />
+              <span id="journey-speed-val">1×</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="map"></div>
+      </section>
+
+      <aside class="side-panel">
+        <form id="spot-form" class="card">
+          <h3>添加旅行地点</h3>
+          <p class="hint">先点击地图或搜索地名，再填写内容并上传照片。</p>
+          <div class="field-row compact">
+            <label>纬度
+              <input id="lat" name="lat" type="number" step="any" required />
+            </label>
+            <label>经度
+              <input id="lng" name="lng" type="number" step="any" required />
+            </label>
+          </div>
+          <label>地点名称
+            <input id="placeName" name="placeName" type="text" placeholder="例如：北京市朝阳区奥林匹克公园" required />
+          </label>
+          <div class="field-row">
+            <label>国家/地区
+              <input id="country" name="country" type="text" />
+            </label>
+            <label>省/州
+              <input id="admin1" name="admin1" type="text" />
+            </label>
+          </div>
+          <div class="field-row">
+            <label>城市
+              <input id="city" name="city" type="text" />
+            </label>
+            <label>区/县
+              <input id="district" name="district" type="text" />
+            </label>
+          </div>
+          <label>旅行备注
+            <textarea id="note" name="note" rows="2" placeholder="这次旅行有什么故事？"></textarea>
+          </label>
+          <label>拍摄/旅行时间
+            <input id="travelAt" name="travelAt" type="datetime-local" />
+          </label>
+          <label>上传照片（可多选）
+            <input id="photos" name="photos" type="file" accept="image/*" multiple required />
+          </label>
+          <div class="actions">
+            <button type="submit">保存到地图相册</button>
+            <button id="clear-form-btn" type="button" class="ghost">清空</button>
+          </div>
+        </form>
+
+        <section class="card">
+          <div class="album-head">
+            <h3>我的旅行相册</h3>
+            <button id="album-collapse-btn" type="button" class="ghost small">收起</button>
+            <input id="search-input" type="search" placeholder="按城市/区县/地点搜索..." />
+          </div>
+          <div id="album-content">
+            <div class="album-tools">
+              <button id="export-btn" type="button" class="ghost small">↓ 导出备份</button>
+              <label class="btn-label small">↑ 导入数据
+                <input id="import-input" type="file" accept=".json" hidden />
+              </label>
+            </div>
+            <div id="album-list" class="album-list"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="album-head">
+            <h3>找搭子</h3>
+            <button id="buddy-collapse-btn" type="button" class="ghost small">收起</button>
+            <small>按历史轨迹相似度排序</small>
+          </div>
+          <div id="buddy-content">
+            <div id="buddy-list" class="buddy-list"></div>
+          </div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <!-- 照片灯箱 -->
+  <div id="lightbox-overlay" class="lightbox-overlay" role="dialog" aria-modal="true" aria-label="照片查看器">
+    <button id="lightbox-close" class="lightbox-close" aria-label="关闭">✕</button>
+    <button id="lightbox-prev" class="lightbox-nav prev" aria-label="上一张">‹</button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="旅行照片" />
+      <p id="lightbox-caption"></p>
+    </div>
+    <button id="lightbox-next" class="lightbox-nav next" aria-label="下一张">›</button>
+  </div>
+
+  <template id="photo-card-template">
+    <article class="photo-card">
+      <div class="photo-strip"></div>
+      <div class="photo-content">
+        <h4 class="photo-title"></h4>
+        <p class="photo-meta"></p>
+        <p class="photo-note"></p>
+        <div class="photo-actions">
+          <button class="focus-btn" type="button">定位</button>
+          <button class="delete-btn danger" type="button">删除</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="./app.js" type="module"></script>
+</body>
+</html>

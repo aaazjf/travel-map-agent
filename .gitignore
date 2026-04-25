@@ -1,0 +1,43 @@
+# ===== 敏感配置（绝不上传）=====
+.env
+
+# ===== Claude Code 本地配置 =====
+.claude/
+
+# ===== 运行时数据（本地专属）=====
+data/
+
+# ===== Python =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ===== 虚拟环境 =====
+.venv/
+venv/
+env/
+ENV/
+
+# ===== 编辑器 / OS =====
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===== 日志 =====
+*.log
+logs/
+
+# ===== Streamlit 缓存 =====
+.streamlit/secrets.toml

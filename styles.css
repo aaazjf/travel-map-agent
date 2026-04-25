@@ -1,0 +1,784 @@
+:root {
+  --bg: #f7f2e8;
+  --bg-2: #efe8d9;
+  --ink: #1f2c38;
+  --ink-soft: #5b6874;
+  --brand: #0f8b8d;
+  --brand-deep: #0c6f71;
+  --card: rgba(255, 255, 255, 0.78);
+  --line: rgba(31, 44, 56, 0.12);
+  --danger: #b63b3b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Noto Sans SC", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(80rem 40rem at -15% -30%, #ffd1a7 0%, transparent 65%),
+    radial-gradient(65rem 35rem at 120% 0%, #b2e8d8 0%, transparent 60%),
+    linear-gradient(135deg, var(--bg), var(--bg-2));
+}
+
+.app-shell {
+  width: min(1400px, calc(100vw - 2rem));
+  margin: 1rem auto 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+/* ─── Hero ─────────────────────────────────────────────────────────────────── */
+.hero {
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+  background: var(--card);
+  border-radius: 24px;
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  box-shadow: 0 12px 35px rgba(28, 35, 43, 0.1);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: var(--brand-deep);
+}
+
+.hero h1 {
+  margin: 0.15rem 0 0.2rem;
+  font-size: clamp(1.3rem, 2.2vw, 2.1rem);
+  line-height: 1.18;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.stat-box {
+  min-width: 78px;
+  border-radius: 14px;
+  padding: 0.55rem 0.8rem;
+  background: linear-gradient(145deg, #f5fffb, #d7f6f1);
+  border: 1px solid rgba(15, 139, 141, 0.24);
+  text-align: center;
+}
+
+.stat-box span {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.stat-box small {
+  color: var(--ink-soft);
+}
+
+/* ─── Layout ───────────────────────────────────────────────────────────────── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1rem;
+}
+
+.map-panel,
+.card {
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+  background: var(--card);
+  border-radius: 24px;
+  box-shadow: 0 12px 35px rgba(28, 35, 43, 0.08);
+}
+
+.map-panel {
+  padding: 0.9rem;
+}
+
+/* ─── Map head ─────────────────────────────────────────────────────────────── */
+.map-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.map-head h2 {
+  margin: 0;
+}
+
+.map-btn-group {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.map-btn-group button {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.65rem;
+}
+
+.map-tools {
+  display: flex;
+  gap: 0.45rem;
+  margin-bottom: 0.35rem;
+}
+
+.map-tools input {
+  flex: 1;
+}
+
+.map-tools select {
+  min-width: 120px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.56rem 0.62rem;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+}
+
+.search-tip {
+  min-height: 1.1rem;
+  margin: 0 0 0.55rem;
+  font-size: 0.82rem;
+  color: #32515f;
+}
+
+.search-tip.error {
+  color: #a33737;
+}
+
+#map {
+  height: calc(100vh - 260px);
+  min-height: 500px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+}
+
+/* ─── Side panel ───────────────────────────────────────────────────────────── */
+.side-panel {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.card {
+  padding: 0.95rem;
+}
+
+.card h3 {
+  margin: 0 0 0.25rem;
+}
+
+.hint {
+  margin: 0 0 0.7rem;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+/* ─── Form ─────────────────────────────────────────────────────────────────── */
+label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.88rem;
+  margin-bottom: 0.45rem;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+textarea {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.56rem 0.62rem;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.48rem;
+}
+
+.field-row.compact label {
+  margin-bottom: 0.25rem;
+}
+
+.actions,
+.photo-actions,
+.album-head {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.actions {
+  margin-top: 0.55rem;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────────────── */
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0.55rem 0.78rem;
+  background: var(--brand);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.97);
+}
+
+button.ghost {
+  background: #dce5eb;
+  color: #314150;
+}
+
+button.ghost:hover {
+  filter: brightness(0.95);
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+button.active {
+  background: var(--brand-deep);
+  color: white;
+}
+
+button.small {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+}
+
+/* ─── 标记聚合图标 ─────────────────────────────────────────────────────────── */
+.cluster-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: white;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  box-shadow: 0 2px 12px rgba(15, 139, 141, 0.45);
+  transition: transform 0.15s ease;
+}
+
+.cluster-icon:hover {
+  transform: scale(1.12);
+}
+
+/* ─── 轨迹回放面板 ─────────────────────────────────────────────────────────── */
+.journey-panel {
+  margin-bottom: 0.65rem;
+  padding: 0.65rem 0.9rem;
+  background: linear-gradient(135deg, rgba(15, 139, 141, 0.09), rgba(15, 139, 141, 0.04));
+  border: 1px solid rgba(15, 139, 141, 0.28);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  animation: slideDown 0.3s ease;
+}
+
+.journey-panel.hidden {
+  display: none;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.journey-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+#journey-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--brand-deep);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+#journey-progress {
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.journey-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+.speed-label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.speed-label input[type="range"] {
+  width: 72px;
+  padding: 0;
+  border: none;
+  background: none;
+  accent-color: var(--brand);
+}
+
+#journey-speed-val {
+  font-weight: 700;
+  color: var(--brand);
+  min-width: 2em;
+  text-align: right;
+}
+
+/* ─── 相册工具栏（导入/导出） ──────────────────────────────────────────────── */
+.album-head {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.album-head h3 {
+  margin: 0;
+}
+
+.album-head input {
+  width: 56%;
+}
+
+.album-tools {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+#album-content.is-collapsed {
+  display: none;
+}
+
+#buddy-content.is-collapsed {
+  display: none;
+}
+
+/* 让 label 看起来像按钮 */
+.btn-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 10px;
+  padding: 0.35rem 0.6rem;
+  background: #dce5eb;
+  color: #314150;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  user-select: none;
+  margin: 0;
+  gap: 0;
+}
+
+.btn-label:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.95);
+}
+
+/* ─── 相册列表 ─────────────────────────────────────────────────────────────── */
+.album-list {
+  display: grid;
+  gap: 0.6rem;
+  max-height: calc(100vh - 410px);
+  overflow: auto;
+  padding-right: 0.1rem;
+}
+
+.buddy-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.buddy-row {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.76);
+  padding: 0.55rem 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.buddy-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.buddy-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.buddy-meta {
+  min-width: 0;
+}
+
+.buddy-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buddy-score {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.photo-card {
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  overflow: hidden;
+  animation: cardIn 0.35s ease both;
+}
+
+.photo-card .photo-content {
+  position: relative;
+}
+
+.photo-card.collapsed .photo-strip,
+.photo-card.collapsed .photo-note,
+.photo-card.collapsed .photo-actions {
+  display: none;
+}
+
+.photo-card.collapsed .photo-content {
+  cursor: pointer;
+  padding: 0.55rem 0.62rem;
+}
+
+.photo-card.collapsed .photo-content::after {
+  content: "点击展开";
+  position: absolute;
+  right: 0.62rem;
+  top: 0.58rem;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.photo-card.collapsed .photo-title,
+.photo-card.collapsed .photo-meta {
+  padding-right: 3.8rem;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.photo-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+  min-height: 74px;
+  gap: 0.2rem;
+  padding: 0.2rem;
+}
+
+.photo-strip img {
+  width: 100%;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.photo-strip img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  position: relative;
+}
+
+.photo-content {
+  padding: 0.48rem 0.62rem 0.65rem;
+}
+
+.photo-title {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.photo-meta {
+  margin: 0.2rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+.photo-note {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 0.86rem;
+}
+
+/* ─── 高德 InfoWindow 样式覆盖 ─────────────────────────────────────────────── */
+.amap-info-content {
+  border-radius: 12px !important;
+  padding: 0.75rem 0.9rem !important;
+  font-family: "Noto Sans SC", sans-serif;
+  box-shadow: 0 8px 28px rgba(28, 35, 43, 0.18) !important;
+  border: 1px solid rgba(31, 44, 56, 0.1) !important;
+}
+
+/* ─── 地图 popup ───────────────────────────────────────────────────────────── */
+
+.popup-title {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.popup-meta {
+  color: #556372;
+  margin-bottom: 0.3rem;
+  font-size: 0.82rem;
+}
+
+.popup-strip {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.popup-strip img {
+  width: 60px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.empty-tip {
+  color: var(--ink-soft);
+  padding: 0.6rem;
+  text-align: center;
+}
+
+/* ─── 照片灯箱 ─────────────────────────────────────────────────────────────── */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(8, 12, 18, 0.93);
+  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.lightbox-overlay.active {
+  display: flex;
+  animation: lbFadeIn 0.22s ease;
+}
+
+@keyframes lbFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.lightbox-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 88vw;
+  max-height: 90vh;
+  gap: 0.75rem;
+}
+
+#lightbox-img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65);
+  transition: opacity 0.18s ease;
+}
+
+#lightbox-caption {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.88rem;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.14);
+  color: white;
+  border-radius: 50%;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.26);
+  transform: none;
+  filter: none;
+}
+
+.lightbox-nav {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border-radius: 50%;
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0;
+  font-size: 2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.24);
+  transform: none;
+  filter: none;
+}
+
+/* ─── 响应式 ───────────────────────────────────────────────────────────────── */
+@media (max-width: 1180px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #map {
+    height: 62vh;
+    min-height: 420px;
+  }
+
+  .album-list {
+    max-height: 45vh;
+  }
+}
+
+@media (max-width: 740px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-stats {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .stat-box {
+    flex: 1;
+    min-width: 60px;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .album-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .album-head input {
+    width: 100%;
+  }
+
+  .map-tools {
+    flex-direction: column;
+  }
+
+  .map-btn-group {
+    width: 100%;
+  }
+
+  .map-btn-group button {
+    flex: 1;
+  }
+
+  .journey-panel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lightbox-nav {
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 1.6rem;
+  }
+}

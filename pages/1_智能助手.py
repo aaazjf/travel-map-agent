@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import streamlit as st
 
+from src.agent_core.skills import list_skills
 from src.config import DEFAULT_USER_ID
 from src.db import init_db
 from src.services.agent_service import (
@@ -356,11 +357,29 @@ with st.expander(
   else:
     st.caption("当前对话暂无附件，上传后助手可直接分析内容。")
 
+# ── skill quick-action buttons ────────────────────────────────────────────────
+_skills = list_skills()
+if _skills:
+  st.markdown("**⚡ 快捷技能**")
+  _skill_cols = st.columns(len(_skills))
+  for _i, _sk in enumerate(_skills):
+    if _skill_cols[_i].button(
+      _sk.trigger,
+      help=_sk.description,
+      use_container_width=True,
+      key=f"skill_btn_{_sk.name}",
+    ):
+      st.session_state["_pending_skill"] = _sk.trigger
+
 # ── chat input (Enter to send, auto-clears) ───────────────────────────────────
-if prompt := st.chat_input(TXT_CHAT_HINT):
+_pending_skill = st.session_state.pop("_pending_skill", None)
+_typed = st.chat_input(TXT_CHAT_HINT)
+_raw_query = (_pending_skill or "").strip() or (_typed or "").strip()
+
+if _raw_query:
   conversation_id = st.session_state["active_conversation_id"]
   user_id = st.session_state["user_id"]
-  query = prompt.strip()
+  query = _raw_query
 
   # Render user bubble immediately
   with st.chat_message("user"):

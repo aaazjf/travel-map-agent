@@ -13,6 +13,7 @@ from src.services.llm_service import LLMService
 from .agents import GeoAgent, MemoryAgent, PlanAgent, SocialAgent
 from .models import AgentContext, SubTask
 from .router import route_agent
+from .skills import match_skill
 from .tool_executor import ToolExecutor
 
 logger = logging.getLogger(__name__)
@@ -60,7 +61,27 @@ class TravelOrchestrator:
         llm = LLMService()
         request_id = str(uuid.uuid4())
 
-        # Hint to supervisor when a document is attached so it routes to the right agent
+        # ① Skill fast-path: deterministic workflows bypass Supervisor LLM entirely
+        matched_skill = match_skill(query)
+        if matched_skill:
+            ctx = AgentContext(
+                request_id=request_id,
+                user_id=user_id,
+                conversation_id=conversation_id,
+                query=query,
+                spots=spots,
+                history=history or [],
+                extra_context=extra_context,
+                llm=llm,
+                route_agent=f"skill:{matched_skill.name}",
+            )
+            logger.info(
+                "orchestrator skill_hit request=%s skill=%s query=%r",
+                request_id, matched_skill.name, query[:60],
+            )
+            return matched_skill.handler(ctx)
+
+        # ② Hint to supervisor when a document is attached so it routes to the right agent
         supervisor_query = query
         if extra_context and len(extra_context.strip()) > 100:
             supervisor_query = f"[用户上传了文档需要分析] {query}"

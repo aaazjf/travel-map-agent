@@ -18,7 +18,7 @@
 | **行程规划** | AI 生成多日行程，导出 PDF，可共享给其他用户 |
 | **旅行报告** | 按年份 / 国家生成统计报告（地点数、照片数、里程），导出 PDF |
 | **协作中心** | 共享相册地点给好友，@提及评论，接受 / 拒绝邀请，多用户实时演示 |
-| **智能助手** | Supervisor 多 Agent 对话，支持上传 PDF/Excel/Word 让 AI 分析，对话历史压缩 |
+| **智能助手** | Supervisor 多 Agent 对话，⚡ 快捷技能一键触发，支持上传 PDF/Excel/Word 让 AI 分析，对话历史压缩 |
 
 ---
 
@@ -36,9 +36,13 @@ Service 层（src/services/）         ← 业务逻辑，直接操作 DB
    ▼
 多 Agent 编排层（src/agent_core/）
    │
-   ├─ TravelOrchestrator            ← 入口：决定单/多 Agent 路径
-   │    ├─ Supervisor               ← LLM 把 query 分解为子任务
-   │    └─ route_agent()            ← LLM 分类 + 关键词降级路由
+   ├─ TravelOrchestrator            ← 入口：三层能力分发
+   │    │
+   │    ├─ ① Skill 快捷路径         ← 关键词命中后直接执行，跳过 LLM 分解
+   │    │    └─ Skill Registry      ← @skill 装饰器注册，支持自然语言 + /命令触发
+   │    │
+   │    ├─ ② Supervisor             ← LLM 把 query 分解为子任务（未命中 Skill 时）
+   │    └─ ③ route_agent()          ← LLM 分类 + 关键词降级路由（单 Agent 时）
    │
    ├─ GeoAgent                      ← 地点搜索 / 天气 / 年度复盘
    ├─ MemoryAgent                   ← 长期记忆写入 / 文档分析
@@ -75,6 +79,17 @@ Service 层（src/services/）         ← 业务逻辑，直接操作 DB
 
 **5. 规则降级（LLM_PROVIDER=none）**  
 无 LLM 时系统不崩溃：路由通过关键词匹配，工具调用直接执行，回复使用预设模板。地图、相册、报告等非 AI 功能完全正常。
+
+**6. Skills 层——三级能力体系**  
+在 Tools（原子操作）和 Agents（推理单元）之上新增 Skills（编排知识）层，形成完整的三级体系：
+
+| 层级 | 概念 | 决策者 | 典型场景 |
+|------|------|--------|---------|
+| Tool | `web_search` / `get_weather` 等原子调用 | LLM 动态决定 | 查一个城市的坐标 |
+| Agent | GeoAgent / PlanAgent 等专家角色 | Supervisor 路由 | 回答"东京有什么好玩的" |
+| **Skill** | `/年度总结` / `/找搭子` / `/行程` | **确定性匹配，不走 LLM** | 已知最优执行路径 |
+
+Skill 在 `TravelOrchestrator.run()` 最前端拦截请求，命中后直接调用对应 Agent，跳过 Supervisor LLM 分解步骤，既降低延迟与 token 消耗，又保证高频场景的执行稳定性。新增 Skill 只需在 `src/agent_core/skills/travel_skills.py` 中添加一个带 `@skill` 装饰器的函数。
 
 ---
 
@@ -190,13 +205,16 @@ DEEPSEEK_MODEL="deepseek-chat"
 │   ├── db.py                   # SQLite 初始化（13 张表）
 │   ├── ui.py                   # 地图 HTML 构建（高德 / Leaflet）
 │   ├── agent_core/
-│   │   ├── orchestrator.py     # TravelOrchestrator，Supervisor 路由
+│   │   ├── orchestrator.py     # TravelOrchestrator，三级能力分发
 │   │   ├── react_runner.py     # ReAct 工具循环 + 反思机制
 │   │   ├── router.py           # 单 Agent 意图分类
 │   │   ├── models.py           # AgentContext, SubTask 数据类
 │   │   ├── tool_executor.py    # 工具注册表 + Policy Engine
 │   │   ├── context_manager.py  # Token 预算分配
 │   │   ├── policy.py           # 工具风险策略（auto/approval/block）
+│   │   ├── skills/
+│   │   │   ├── registry.py     # @skill 装饰器 + match_skill() / list_skills()
+│   │   │   └── travel_skills.py# 内置 Skill：/年度总结 /找搭子 /行程
 │   │   └── agents/
 │   │       ├── geo_agent.py    # 地点/天气/年度复盘
 │   │       ├── memory_agent.py # 记忆写入 + 文档分析

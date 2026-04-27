@@ -79,7 +79,9 @@ class TravelOrchestrator:
                 "orchestrator skill_hit request=%s skill=%s query=%r",
                 request_id, matched_skill.name, query[:60],
             )
-            return matched_skill.handler(ctx)
+            result = matched_skill.handler(ctx)
+            self._log_run(ctx, {"memory_hits": [], "context_budget": {}, "guard_events": []})
+            return result
 
         # ② Hint to supervisor when a document is attached so it routes to the right agent
         supervisor_query = query
